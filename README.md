@@ -1,5 +1,8 @@
 # mx-identifiers
 
+[![ci](https://github.com/OrtaMarco/mx-identifiers/actions/workflows/ci.yml/badge.svg)](https://github.com/OrtaMarco/mx-identifiers/actions/workflows/ci.yml)
+[![license: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
 Validate and generate Mexican identifiers — **RFC**, **CURP**, **CLABE** and **NSS** —
 with check digits verified against public vectors. Zero dependencies, one package,
 works in Node and in the browser.
