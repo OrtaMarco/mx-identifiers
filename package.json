@@ -24,6 +24,8 @@
   "scripts": {
     "build": "tsup",
     "typecheck": "tsc --noEmit",
+    "pretest": "npm run build",
+    "test": "node --test",
     "clean": "rm -rf dist",
     "prepublishOnly": "npm run typecheck && npm run build"
   },

@@ -13,9 +13,14 @@ import { INCONVENIENT_WORDS } from './catalogs';
 const ALPHABET = '0123456789ABCDEFGHIJKLMN&OPQRSTUVWXYZ Ñ';
 
 /**
- * RFC genéricos publicados por el SAT. No satisfacen el dígito verificador —se
- * asignaron por decreto— así que hay que aceptarlos explícitamente o el validador
- * marcaría como inválido lo que toda factura al público en general lleva.
+ * RFC genéricos publicados por el SAT, aceptados explícitamente.
+ *
+ * Los dos se asignaron por decreto, pero no se comportan igual y conviene no
+ * confundirlos: XAXX010101000 NO satisface el dígito verificador (el módulo 11 pide
+ * «4» donde el SAT puso «0»), así que sin esta allowlist el validador marcaría como
+ * inválido lo que lleva toda factura al público en general. XEXX010101000 sí lo
+ * satisface por su cuenta —validaría igual sin estar aquí—, y aparece para que se
+ * clasifique como genérico en vez de como una persona física cualquiera.
  */
 export const GENERIC_RFCS: Record<string, string> = {
     XAXX010101000: 'RFC genérico nacional (público en general)',
