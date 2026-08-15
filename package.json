@@ -1,0 +1,65 @@
+{
+  "name": "mx-identifiers",
+  "version": "1.0.0",
+  "description": "Validate and generate Mexican identifiers — RFC, CURP, CLABE and NSS — with check digits verified against public vectors. Zero dependencies, runs in Node and the browser.",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "sideEffects": false,
+  "files": [
+    "dist",
+    "README.md",
+    "README.es.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -rf dist",
+    "prepublishOnly": "npm run typecheck && npm run build"
+  },
+  "keywords": [
+    "mexico",
+    "mexican",
+    "rfc",
+    "curp",
+    "clabe",
+    "nss",
+    "imss",
+    "sat",
+    "banxico",
+    "renapo",
+    "cfdi",
+    "validator",
+    "check-digit",
+    "test-data",
+    "fixtures",
+    "faker"
+  ],
+  "author": "Marco Orta <contacto@ortamarco.me> (https://ortamarco.me)",
+  "license": "MIT",
+  "homepage": "https://github.com/OrtaMarco/mx-identifiers#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OrtaMarco/mx-identifiers.git"
+  },
+  "bugs": {
+    "url": "https://github.com/OrtaMarco/mx-identifiers/issues"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "devDependencies": {
+    "tsup": "^8.5.0",
+    "typescript": "^5.9.2"
+  }
+}
