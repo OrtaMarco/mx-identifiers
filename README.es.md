@@ -2,6 +2,7 @@
 
 # mx-identifiers
 
+[![npm](https://img.shields.io/npm/v/mx-identifiers.svg)](https://www.npmjs.com/package/mx-identifiers)
 [![ci](https://github.com/OrtaMarco/mx-identifiers/actions/workflows/ci.yml/badge.svg)](https://github.com/OrtaMarco/mx-identifiers/actions/workflows/ci.yml)
 [![licencia: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
