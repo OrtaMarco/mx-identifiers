@@ -2,9 +2,11 @@
  * CLABE — Clave Bancaria Estandarizada (Banxico, Circular 3/2012).
  *
  * 18 dígitos: 3 de banco + 3 de plaza + 11 de cuenta + 1 de control.
- * El dígito de control pondera con 3-7-1 cíclico, reduciendo cada producto módulo 10
- * antes de sumar (ese paso intermedio es el que suelen omitir las implementaciones
- * incorrectas).
+ * El dígito de control pondera con 3-7-1 cíclico y de cada producto se queda con su
+ * última cifra (el producto módulo 10): de 9 × 7 = 63 cuenta el 3. Reducir antes o
+ * después de sumar da lo mismo; el error habitual es sumar las cifras del producto al
+ * estilo Luhn (6 + 3 = 9), que da otro dígito: para la base 09000000000000000 el
+ * algoritmo da 7 y el estilo Luhn da 1.
  */
 
 import { CLABE_BANKS } from './catalogs';
