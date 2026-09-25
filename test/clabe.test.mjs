@@ -44,6 +44,15 @@ describe('validateClabe', () => {
         assert.equal(validateClabe('002180000000000009').bankName, 'Banamex');
     });
 
+    it('usa los códigos del listado de Banxico: Bineo es 165 y el 812 no existe', () => {
+        const bineo = '16518000000000000';
+        assert.equal(validateClabe(bineo + clabeCheckDigit(bineo)).bankName, 'Bineo');
+        const old = '81218000000000000';
+        assert.equal(validateClabe(old + clabeCheckDigit(old)).bankName, null);
+        const nu = '63818000000000000';
+        assert.equal(validateClabe(nu + clabeCheckDigit(nu)).bankName, 'Nu México');
+    });
+
     it('no inventa nombre para un código fuera del catálogo', () => {
         const base = '99918000000000000';
         const r = validateClabe(base + clabeCheckDigit(base));

@@ -62,6 +62,13 @@ export const INCONVENIENT_WORDS = new Set([
  * Principales instituciones del catálogo de participantes de Banxico, indexadas por
  * los tres primeros dígitos de la CLABE. No es el catálogo completo: los códigos que
  * no aparezcan aquí se reportan como «no identificado» en vez de inventar un nombre.
+ *
+ * El código es el de la clave de institución de cinco cifras sin su prefijo (40165 → 165).
+ * Revisado el 2026-09-15 contra el listado de Banxico
+ * (https://www.banxico.org.mx/cep-scl-beta/listaInstituciones.do): Bineo es 40165, no
+ * 812 —el 812 no aparece en ese listado, así que se quitó—, y se añadieron Hey Banco,
+ * Nu, Klar, Spin by OXXO y GBM, que sí figuran con nombre inequívoco. Mercado Pago no:
+ * el listado solo trae «MP Wallet» (90722), sin el nombre completo de la institución.
  */
 export const CLABE_BANKS: Record<string, string> = {
     '002': 'Banamex',
@@ -98,9 +105,12 @@ export const CLABE_BANKS: Record<string, string> = {
     '141': 'Volkswagen Bank',
     '143': 'CIBanco',
     '145': 'Banco Base',
+    '165': 'Bineo',
     '166': 'Banco del Bienestar',
+    '167': 'Hey Banco',
     '168': 'Hipotecaria Federal',
     '600': 'Monexcb',
+    '601': 'GBM',
     '602': 'Masari',
     '605': 'Value',
     '608': 'Vector',
@@ -111,17 +121,19 @@ export const CLABE_BANKS: Record<string, string> = {
     '630': 'Intercam Casa de Bolsa',
     '631': 'CI Casa de Bolsa',
     '634': 'Fincomún',
+    '638': 'Nu México',
     '646': 'STP',
     '648': 'Evercore',
     '652': 'Credicapital',
     '653': 'Kuspit',
     '656': 'Unagra',
     '659': 'Asp Integra Opciones',
+    '661': 'Klar',
     '670': 'Libertad',
     '677': 'Caja Popular Mexicana',
     '710': 'NVIO',
     '723': 'Cuenca',
-    '812': 'Bineo',
+    '728': 'Spin by OXXO',
 };
 
 /** Régimen fiscal del emisor/receptor de un CFDI (catálogo c_RegimenFiscal). */
