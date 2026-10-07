@@ -20,6 +20,7 @@ export interface NssResult {
 }
 
 export function normalizeNss(input: string): string {
+    if (typeof input !== 'string') return '';
     return input.replace(/[\s\-]/g, '');
 }
 
@@ -27,8 +28,9 @@ export function normalizeNss(input: string): string {
 export function nssCheckDigit(base: string): string {
     let sum = 0;
     for (let i = 0; i < 10; i++) {
-        const digit = Number(base[i]);
-        if (Number.isNaN(digit)) return '?';
+        const code = (base[i] ?? '').charCodeAt(0);
+        if (!(code >= 48 && code <= 57)) return '?';
+        const digit = code - 48;
         // Índices impares (0-based) ocupan las posiciones pares, que son las que se duplican.
         const product = i % 2 === 1 ? digit * 2 : digit;
         sum += product > 9 ? product - 9 : product;

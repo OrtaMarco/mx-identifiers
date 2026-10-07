@@ -33,6 +33,7 @@ export interface CurpResult {
 }
 
 export function normalizeCurp(input: string): string {
+    if (typeof input !== 'string') return '';
     return input.toUpperCase().replace(/[\s\-_.]/g, '');
 }
 

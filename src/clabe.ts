@@ -28,6 +28,7 @@ export interface ClabeResult {
 }
 
 export function normalizeClabe(input: string): string {
+    if (typeof input !== 'string') return '';
     return input.replace(/[\s\-]/g, '');
 }
 
@@ -35,8 +36,9 @@ export function normalizeClabe(input: string): string {
 export function clabeCheckDigit(base: string): string {
     let sum = 0;
     for (let i = 0; i < 17; i++) {
-        const digit = Number(base[i]);
-        if (Number.isNaN(digit)) return '?';
+        const code = (base[i] ?? '').charCodeAt(0);
+        if (!(code >= 48 && code <= 57)) return '?';
+        const digit = code - 48;
         sum += (digit * WEIGHTS[i]) % 10;
     }
     return String((10 - (sum % 10)) % 10);

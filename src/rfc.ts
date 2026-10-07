@@ -49,6 +49,7 @@ export interface RfcResult {
 
 /** Quita separadores y espacios, y pasa a mayúsculas. */
 export function normalizeRfc(input: string): string {
+    if (typeof input !== 'string') return '';
     return input.toUpperCase().replace(/[\s\-_.]/g, '');
 }
 
