@@ -12,7 +12,7 @@
  * que el resultado es consistente aunque no sea el RFC que emitiría el SAT.
  */
 
-import { CURP_STATES, INCONVENIENT_WORDS, CLABE_BANKS } from './catalogs';
+import { CURP_STATES, INCONVENIENT_WORDS, RFC_INCONVENIENT_WORDS, CLABE_BANKS } from './catalogs';
 import { rfcCheckDigit } from './rfc';
 import { curpCheckDigit } from './curp';
 import { clabeCheckDigit } from './clabe';
@@ -28,21 +28,40 @@ const VOWELS = 'AEIOU';
 const CONSONANTS = 'BCDFGHJKLMNPQRSTVWXYZ';
 const HOMOCLAVE_CHARS = '0123456789ABCDEFGHIJKLMNPQRSTUVWXYZ';
 
-/** Partículas que las reglas del SAT y de RENAPO ignoran al formar la clave. */
-const PARTICLES = new Set(['DE', 'DEL', 'LA', 'LAS', 'LOS', 'Y', 'MC', 'MAC', 'VAN', 'VON', 'DA', 'DAS', 'DI', 'DIE']);
+/** Partículas que se omiten al formar el RFC. TODO(verificar): sin fuente oficial del SAT. */
+const RFC_PARTICLES: ReadonlySet<string> = new Set(['DE', 'DEL', 'LA', 'LAS', 'LOS', 'Y', 'MC', 'MAC', 'VAN', 'VON', 'DA', 'DAS', 'DI', 'DIE']);
+
+/**
+ * Preposiciones, conjunciones y contracciones que RENAPO omite al formar la CURP
+ * (Instructivo Normativo, criterios de excepción, posiciones 1-4): DA, DAS, DE, DEL,
+ * DER, DI, DIE, DD, EL, LA, LOS, LAS, LE, LES, MAC, MC, VAN, VON, Y.
+ */
+const CURP_PARTICLES: ReadonlySet<string> = new Set([...RFC_PARTICLES, 'DER', 'DD', 'EL', 'LE', 'LES']);
+
+/** Qué partículas se omiten y en qué letra se convierte la Ñ al formar la clave. */
+interface KeyRules {
+    particles: ReadonlySet<string>;
+    enye: 'N' | 'X';
+}
+
+/** Hasta ahora el RFC convertía la Ñ en N (la tilde se perdía al quitar acentos). TODO(verificar) con el SAT. */
+const RFC_RULES: KeyRules = { particles: RFC_PARTICLES, enye: 'N' };
+/** Instructivo Normativo de la CURP: si la letra es Ñ, el sistema asigna una «X». */
+const CURP_RULES: KeyRules = { particles: CURP_PARTICLES, enye: 'X' };
 
 const ri = (a: number, b: number) => Math.floor(Math.random() * (b - a + 1)) + a;
 const choice = <T,>(arr: readonly T[]): T => arr[Math.floor(Math.random() * arr.length)];
 
-/** Quita acentos, pasa Ñ a X y descarta partículas y caracteres no alfabéticos. */
-function cleanWord(word: string): string {
+/** Quita acentos, resuelve la Ñ según las reglas y descarta partículas y caracteres no alfabéticos. */
+function cleanWord(word: string, rules: KeyRules = RFC_RULES): string {
     const stripped = word
         .toUpperCase()
+        .normalize('NFC')
+        .replace(/Ñ/g, rules.enye)
         .normalize('NFD')
         .replace(/[̀-ͯ]/g, '')
-        .replace(/Ñ/g, 'X')
         .replace(/[^A-Z ]/g, '');
-    const parts = stripped.split(/\s+/).filter((p) => p && !PARTICLES.has(p));
+    const parts = stripped.split(/\s+/).filter((p) => p && !rules.particles.has(p));
     return parts.join(' ') || stripped.replace(/\s+/g, '');
 }
 
@@ -66,8 +85,8 @@ function firstInternalConsonant(word: string): string {
  * Nombre de pila que cuenta para la clave: si el primero es José o María y hay más,
  * se usa el siguiente.
  */
-function significantGivenName(nombre: string): string {
-    const parts = cleanWord(nombre).split(' ').filter(Boolean);
+function significantGivenName(nombre: string, rules: KeyRules = RFC_RULES): string {
+    const parts = cleanWord(nombre, rules).split(' ').filter(Boolean);
     if (parts.length > 1 && (parts[0] === 'JOSE' || parts[0] === 'MARIA')) return parts[1];
     return parts[0] ?? 'X';
 }
@@ -94,7 +113,7 @@ export function buildRfcFisica(p: PersonInput): string {
     const nombre = significantGivenName(p.nombre);
 
     let iniciales = paterno[0] + firstInternalVowel(paterno) + (materno[0] ?? 'X') + nombre[0];
-    if (INCONVENIENT_WORDS.has(iniciales)) iniciales = iniciales[0] + 'X' + iniciales.slice(2);
+    if (RFC_INCONVENIENT_WORDS.has(iniciales)) iniciales = iniciales[0] + 'X' + iniciales.slice(2);
 
     const [y, m, d] = p.fechaNacimiento.split('-');
     const fecha = y.slice(2) + m + d;
@@ -105,9 +124,9 @@ export function buildRfcFisica(p: PersonInput): string {
 
 /** CURP de 18 caracteres con dígito verificador correcto. */
 export function buildCurp(p: PersonInput): string {
-    const paterno = cleanWord(p.apellidoPaterno).split(' ')[0] || 'X';
-    const materno = cleanWord(p.apellidoMaterno).split(' ')[0] || '';
-    const nombre = significantGivenName(p.nombre);
+    const paterno = cleanWord(p.apellidoPaterno, CURP_RULES).split(' ')[0] || 'X';
+    const materno = cleanWord(p.apellidoMaterno, CURP_RULES).split(' ')[0] || '';
+    const nombre = significantGivenName(p.nombre, CURP_RULES);
 
     let iniciales = paterno[0] + firstInternalVowel(paterno) + (materno[0] ?? 'X') + nombre[0];
     if (INCONVENIENT_WORDS.has(iniciales)) iniciales = iniciales[0] + 'X' + iniciales.slice(2);

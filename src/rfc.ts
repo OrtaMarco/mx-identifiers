@@ -7,7 +7,7 @@
  *   MAB9307148T4   (persona moral, se rellena a doce con un espacio a la izquierda)
  */
 
-import { INCONVENIENT_WORDS } from './catalogs';
+import { RFC_INCONVENIENT_WORDS } from './catalogs';
 
 /** El espacio vale 37 y la Ñ 38; el «&» ocupa el hueco 24 entre la N y la O. */
 const ALPHABET = '0123456789ABCDEFGHIJKLMN&OPQRSTUVWXYZ Ñ';
@@ -126,7 +126,7 @@ export function validateRfc(input: string): RfcResult {
     const homoclave = normalized.slice(letterCount + 6, letterCount + 8);
     const digito = normalized.slice(-1);
 
-    if (kind === 'fisica' && INCONVENIENT_WORDS.has(iniciales)) errors.push('inconvenient');
+    if (kind === 'fisica' && RFC_INCONVENIENT_WORDS.has(iniciales)) errors.push('inconvenient');
 
     const birthDate = parseRfcDate(fecha.slice(0, 2), fecha.slice(2, 4), fecha.slice(4, 6));
     if (!birthDate) errors.push('date');

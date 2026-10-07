@@ -46,17 +46,34 @@ export const CURP_STATES: Record<string, string> = {
 /**
  * Palabras altisonantes que RENAPO no permite en las primeras cuatro letras de la
  * CURP. Cuando el nombre las produce, la segunda letra se sustituye por «X».
+ *
+ * Son las 81 del Anexo 2 del Instructivo Normativo de la CURP (RENAPO, marzo 2006,
+ * consultado el 2026-10-06):
+ * http://www.ordenjuridico.gob.mx/Federal/PE/APF/APC/SEGOB/Instructivos/InstructivoNormativo.pdf
+ * Hasta la 1.0.1 faltaba JETA.
  */
 export const INCONVENIENT_WORDS = new Set([
     'BACA', 'BAKA', 'BUEI', 'BUEY', 'CACA', 'CACO', 'CAGA', 'CAGO', 'CAKA', 'CAKO',
     'COGE', 'COGI', 'COJA', 'COJE', 'COJI', 'COJO', 'COLA', 'CULO', 'FALO', 'FETO',
-    'GETA', 'GUEI', 'GUEY', 'JOTO', 'KACA', 'KACO', 'KAGA', 'KAGO', 'KAKA', 'KAKO',
+    'GETA', 'GUEI', 'GUEY', 'JETA', 'JOTO', 'KACA', 'KACO', 'KAGA', 'KAGO', 'KAKA', 'KAKO',
     'KOGE', 'KOGI', 'KOJA', 'KOJE', 'KOJI', 'KOJO', 'KOLA', 'KULO', 'LILO', 'LOCA',
     'LOCO', 'LOKA', 'LOKO', 'MAME', 'MAMO', 'MEAR', 'MEAS', 'MEON', 'MIAR', 'MION',
     'MOCO', 'MOKO', 'MULA', 'MULO', 'NACA', 'NACO', 'PEDA', 'PEDO', 'PENE', 'PIPI',
     'PITO', 'POPO', 'PUTA', 'PUTO', 'QULO', 'RATA', 'ROBA', 'ROBE', 'ROBO', 'RUIN',
     'SENO', 'TETA', 'VACA', 'VAGA', 'VAGO', 'VAKA', 'VUEI', 'VUEY', 'WUEI', 'WUEY',
 ]);
+
+/**
+ * Lista que usa el RFC de persona física: por ahora la de la CURP de antes de añadir
+ * JETA, sin cambios.
+ *
+ * TODO(verificar): el SAT no publica ni su lista de palabras ni la letra que sustituye
+ * (las fuentes secundarias discrepan: 2ª o 4ª letra); «Estructura de la clave en el RFC»
+ * solo describe el formato. Hasta tener documento oficial no se toca el comportamiento.
+ */
+export const RFC_INCONVENIENT_WORDS: ReadonlySet<string> = new Set(
+    [...INCONVENIENT_WORDS].filter((w) => w !== 'JETA'),
+);
 
 /**
  * Principales instituciones del catálogo de participantes de Banxico, indexadas por
