@@ -86,6 +86,16 @@ export const RFC_INCONVENIENT_WORDS: ReadonlySet<string> = new Set(
  * 812 —el 812 no aparece en ese listado, así que se quitó—, y se añadieron Hey Banco,
  * Nu, Klar, Spin by OXXO y GBM, que sí figuran con nombre inequívoco. Mercado Pago no:
  * el listado solo trae «MP Wallet» (90722), sin el nombre completo de la institución.
+ *
+ * Segunda revisión el 2026-10-06 contra el mismo listado (241 filas): entran los bancos
+ * 40xxx que faltaban (Citi México, Credit Suisse, Uala, Bankaool, Pagatodo, Inmobiliario,
+ * Donde, Bancrea, Covalto, ICBC, Sabadell, Shinhan, Mizuho, Bank of China, S3, Openbank,
+ * Revolut, Plata) más Stori, albo y Clip; el 128 pasa de «Autofin» a «Kapital», que es
+ * como lo lista Banxico. Códigos de este catálogo que HOY no aparecen en el listado y se
+ * mantienen a la espera de confirmarlos (pueden seguir en circulación en CLABEs viejas):
+ * 143 CIBanco, 608 Vector, 618 Única, 630 Intercam Casa de Bolsa, 648 Evercore; y el 631,
+ * que el listado asigna a «TRF» y no a CI Casa de Bolsa. `scripts/check-clabe-banks.mjs`
+ * repite la comparación.
  */
 export const CLABE_BANKS: Record<string, string> = {
     '002': 'Banamex',
@@ -109,8 +119,10 @@ export const CLABE_BANKS: Record<string, string> = {
     '110': 'JP Morgan',
     '112': 'BMonex',
     '113': 'Ve por Más',
+    '124': 'Citi México',
+    '126': 'Credit Suisse',
     '127': 'Azteca',
-    '128': 'Autofin',
+    '128': 'Kapital',
     '129': 'Barclays',
     '130': 'Compartamos',
     '132': 'Multiva',
@@ -118,14 +130,30 @@ export const CLABE_BANKS: Record<string, string> = {
     '135': 'Nafin',
     '136': 'Intercam Banco',
     '137': 'BanCoppel',
+    '138': 'Uala',
     '140': 'Consubanco',
     '141': 'Volkswagen Bank',
     '143': 'CIBanco',
     '145': 'Banco Base',
+    '147': 'Bankaool',
+    '148': 'Pagatodo',
+    '150': 'Inmobiliario',
+    '151': 'Donde',
+    '152': 'Bancrea',
+    '154': 'Banco Covalto',
+    '155': 'ICBC',
+    '156': 'Sabadell',
+    '157': 'Shinhan',
+    '158': 'Mizuho Bank',
+    '159': 'Bank of China',
+    '160': 'Banco S3',
     '165': 'Bineo',
     '166': 'Banco del Bienestar',
     '167': 'Hey Banco',
     '168': 'Hipotecaria Federal',
+    '169': 'Openbank',
+    '170': 'Revolut',
+    '171': 'Banco Plata',
     '600': 'Monexcb',
     '601': 'GBM',
     '602': 'Masari',
@@ -148,9 +176,12 @@ export const CLABE_BANKS: Record<string, string> = {
     '661': 'Klar',
     '670': 'Libertad',
     '677': 'Caja Popular Mexicana',
+    '708': 'Stori',
     '710': 'NVIO',
+    '721': 'albo',
     '723': 'Cuenca',
     '728': 'Spin by OXXO',
+    '730': 'Clip',
 };
 
 /** Régimen fiscal del emisor/receptor de un CFDI (catálogo c_RegimenFiscal). */

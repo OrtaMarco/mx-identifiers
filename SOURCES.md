@@ -16,6 +16,14 @@ cuentan. Lo que no tiene fuente primaria queda marcado `TODO(verificar)` en el c
   - Anexo 4: 32 entidades + NE (`CURP_STATES`).
   - Posición 17: 1-9 hasta 1999, A-Z desde 2000.
 
+## CLABE
+
+- Banxico, listado de instituciones (clave de cinco cifras; la CLABE usa las tres últimas),
+  consultado el 2026-10-06: https://www.banxico.org.mx/cep-scl-beta/listaInstituciones.do
+  `node scripts/check-clabe-banks.mjs` repite la comparación (requiere red; no corre en CI).
+  Pendientes de confirmar (en el catálogo, ausentes del listado): 143, 608, 618, 630, 648;
+  el 631 aparece como «TRF», no como CI Casa de Bolsa.
+
 ## RFC
 
 - SAT, *Estructura de la clave en el RFC*
