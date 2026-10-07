@@ -71,9 +71,16 @@ describe('artefactos publicados', () => {
     });
 
     it('los exports condicionales apuntan a archivos reales', () => {
-        for (const target of Object.values(pkg.exports['.'])) {
+        const targets = (node) => (typeof node === 'string' ? [node] : Object.values(node).flatMap(targets));
+        for (const target of targets(pkg.exports['.'])) {
             assert.ok(fs.existsSync(path.join(root, target)), `falta ${target}`);
         }
+    });
+
+    it('cada condición import/require trae sus propios tipos (.d.ts / .d.cts)', () => {
+        const { import: esm, require: cjs } = pkg.exports['.'];
+        assert.equal(esm.types, './dist/index.d.ts');
+        assert.equal(cjs.types, './dist/index.d.cts');
     });
 
     it('no arrastra dependencias de runtime', () => {
