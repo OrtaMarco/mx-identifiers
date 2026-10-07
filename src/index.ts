@@ -12,3 +12,4 @@ export * from './curp';
 export * from './clabe';
 export * from './nss';
 export * from './generate';
+export * from './predicates';
