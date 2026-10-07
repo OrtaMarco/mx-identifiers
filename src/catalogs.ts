@@ -276,7 +276,16 @@ export const CFDI_FORMA_PAGO: Record<string, string> = {
     '99': 'Por definir',
 };
 
-/** Objeto de impuesto a nivel concepto (catálogo c_ObjetoImp). */
+/**
+ * Objeto de impuesto a nivel concepto (catálogo c_ObjetoImp).
+ *
+ * Los catálogos CFDI de este archivo se contrastaron el 2026-10-06 con
+ * catCFDI_V_4_23032023.xls, el que enlaza la página del Anexo 20 del SAT
+ * (http://omawww.sat.gob.mx/tramitesyservicios/Paginas/documentos/catCFDI_V_4_23032023.xls):
+ * coinciden en claves todos menos este. Ese xls solo trae 01-04.
+ * TODO(verificar): 05-08 no figuran en él; hay que confirmarlas contra una versión
+ * posterior del catCFDI antes de darlas por vigentes.
+ */
 export const CFDI_OBJETO_IMP: Record<string, string> = {
     '01': 'No objeto de impuesto',
     '02': 'Sí objeto de impuesto',

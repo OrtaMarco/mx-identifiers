@@ -24,6 +24,14 @@ cuentan. Lo que no tiene fuente primaria queda marcado `TODO(verificar)` en el c
   Pendientes de confirmar (en el catálogo, ausentes del listado): 143, 608, 618, 630, 648;
   el 631 aparece como «TRF», no como CI Casa de Bolsa.
 
+## Catálogos CFDI 4.0
+
+- SAT, catCFDI versión 4.0 (el que enlaza la página del Anexo 20), consultado el 2026-10-06:
+  http://omawww.sat.gob.mx/tramitesyservicios/Paginas/documentos/catCFDI_V_4_23032023.xls
+  c_RegimenFiscal, c_UsoCFDI, c_FormaPago, c_MetodoPago, c_TipoDeComprobante y c_Impuesto
+  coinciden en claves; `test/cfdi-catalogos.test.mjs` lo fija. c_ObjetoImp: el xls solo trae
+  01-04; las claves 05-08 de la librería siguen sin verificar (`TODO(verificar)`).
+
 ## RFC
 
 - SAT, *Estructura de la clave en el RFC*
